@@ -5,7 +5,7 @@ node {
                doGenerateSubmoduleConfigurations: false,
                extensions: [[$class: 'CleanBeforeCheckout']],
                submoduleCfg: [],
-               userRemoteConfigs: [[url: 'https://github.com/prthapa-CLGX/pocmastertest.git']]
+               userRemoteConfigs: [[url: 'https://github.com/prthapa-CLGX/poc-mastertest.git']]
             ])
         }
 
