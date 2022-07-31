@@ -12,7 +12,7 @@ node {
         }
 
         stage('Deploy all services') {
-            checkIfServiceRunning(${JOB_NAME})
+            checkIfServiceRunning(env.JOB_NAME})
             //sh('docker-compose -f $WORKSPACE/docker/docker-compose.yml up --detach')
         }
 
