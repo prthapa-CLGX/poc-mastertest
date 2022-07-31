@@ -1,5 +1,3 @@
-import hudson.model.*
-
 node {
         stage('SCM checkout') {
             checkout([$class: 'GitSCM',
@@ -12,28 +10,35 @@ node {
         }
 
         stage('Deploy all services') {
-            checkIfServiceRunning(env.JOB_NAME)
-            //sh('docker-compose -f $WORKSPACE/docker/docker-compose.yml up --detach')
+           //sh('docker-compose -f $WORKSPACE/docker/docker-compose.yml up --detach')
         }
 
         stage('CT-master-test') {
            sh ('echo "********* Running master tests on live services *********"')
-          // sh('./gradlew -i clean test')
+           //sh('./gradlew -i clean test')
+        }
+
+        stage("Clean Up") {
+            if(anyPocJobRunning(env.JOB_NAME)) {
+                sh('echo stopping all running POC containers and removing it')
+                sh('docker ps -q -f name=service | xargs docker stop | xargs docker rm')
+            }
+            sh("Nothing to do...Done Cleaning..")
         }
 
 }
 
-def checkIfServiceRunning(jobName) {
+def anyPocJobRunning(currentJobName) {
+     boolean res = false;
       Hudson.instance.getAllItems(org.jenkinsci.plugins.workflow.job.WorkflowJob)*.fullName.each {
-        	 println it
-    	     println jobName
-          if(!Jenkins.instance.getItemByFullName(it).isBuilding()){
-            println 'Not Running'
-
-          }
           if(it.matches("(.*)poc(.*)")) {
-            println 'matched job name: '+ it
+            if(!it.matches(currentJobName)) {
+                if(Jenkins.instance.getItemByFullName(it).isBuilding()) {
+                  res = true;
+                  println "POC Job is running: "+it
+                }
+            }
           }
-
       }
+      return res;
 }
