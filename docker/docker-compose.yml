@@ -20,6 +20,16 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/address_db
 
+  phonenumber-service:
+    image: localhost:5000/phonenumber-service:latest
+    ports:
+      - "9997:9997"
+    networks:
+      - poc-network
+    restart: on-failure
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/phone_db
+
 networks:
   poc-network:
     external: true
