@@ -23,7 +23,7 @@ node {
                 sh('echo stopping all running POC containers and removing it')
                 sh('docker ps -q -f name=service | xargs docker stop | xargs docker rm')
             }
-            sh("Nothing to do...Done Cleaning..")
+            sh('echo Nothing to do...Done Cleaning..')
         }
 
 }
