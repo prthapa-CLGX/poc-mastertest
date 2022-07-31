@@ -10,12 +10,12 @@ node {
         }
 
         stage('Deploy all services') {
-           //sh('docker-compose -f $WORKSPACE/docker/docker-compose.yml up --detach')
+           sh('docker-compose -f $WORKSPACE/docker/docker-compose.yml up --detach')
         }
 
         stage('CT-master-test') {
            sh ('echo "********* Running master tests on live services *********"')
-           //sh('./gradlew -i clean test')
+           sh('./gradlew -i clean test')
         }
 
         stage("Clean Up") {
@@ -23,7 +23,7 @@ node {
                 sh('echo stopping all running POC containers and removing it')
                 sh('docker ps -q -f name=service | xargs docker stop | xargs docker rm')
             }
-            sh('echo Nothing to do...Done Cleaning..')
+            sh('echo Nothing to do...Done Cleaning...Returning back to main job')
         }
 
 }
