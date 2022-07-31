@@ -1,3 +1,5 @@
+import hudson.model.*
+
 node {
         stage('SCM checkout') {
             checkout([$class: 'GitSCM',
@@ -10,12 +12,28 @@ node {
         }
 
         stage('Deploy all services') {
-            sh('docker-compose -f $WORKSPACE/docker/docker-compose.yml up --detach')
+            checkIfServiceRunning(${JOB_NAME})
+            //sh('docker-compose -f $WORKSPACE/docker/docker-compose.yml up --detach')
         }
 
         stage('CT-master-test') {
            sh ('echo "********* Running master tests on live services *********"')
-           sh('./gradlew -i clean test')
+          // sh('./gradlew -i clean test')
         }
 
+}
+
+def checkIfServiceRunning(jobName) {
+      Hudson.instance.getAllItems(org.jenkinsci.plugins.workflow.job.WorkflowJob)*.fullName.each {
+        	 println it
+    	     println jobName
+          if(!Jenkins.instance.getItemByFullName(it).isBuilding()){
+            println 'Not Running'
+
+          }
+          if(it.matches("(.*)poc(.*)")) {
+            println 'matched job name: '+ it
+          }
+
+      }
 }
