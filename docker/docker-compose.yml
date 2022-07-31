@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  user-service:
+    image: localhost:5000/user-service:latest
+    ports:
+      - "9998:9998"
+    networks:
+      - poc-network
+    restart: on-failure
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/user_db
+
+networks:
+  poc-network:
+    external: true

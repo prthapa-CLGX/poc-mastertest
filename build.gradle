@@ -1,0 +1,32 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.2'
+	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+	id 'java'
+}
+
+group = 'com.poc'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+archivesBaseName = 'poc-mastertest'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'junit:junit:4.13.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+test {
+	testLogging {
+		events "passed", "skipped", "failed"
+		exceptionFormat "full"
+		info.events = ["passed", "failed", "skipped"]
+	}
+}
