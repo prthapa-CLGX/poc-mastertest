@@ -47,6 +47,20 @@ class PocMasterTestApplicationTests {
 		assertThat(jsonNode.get("job").asText()).isEqualTo("CEO");
 	}
 
+	@Test
+	void shouldGetUserAddressWithUserIdAndName() throws IOException, InterruptedException {
+		String requestBody = "{\n"
+			+ "    \"userId\": 2,\n"
+			+ "    \"name\": \"John Barnett\"\n"
+			+ "\n"
+			+ "}";
+		JsonNode jsonNode = sendRequestAndGetResponse(testUrl+"/user-address", requestBody);
+		assertNotNull(jsonNode);
+		assertTrue(jsonNode.has("address"));
+		assertTrue(jsonNode.path("address").has("state"));
+		assertThat(jsonNode.path("address").get("state").asText()).isEqualTo("CA");
+	}
+
 	public HttpRequest getHttpRequest(String url, String data) {
 		return HttpRequest.newBuilder()
 			.POST(HttpRequest.BodyPublishers.ofString(data))

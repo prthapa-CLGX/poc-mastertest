@@ -10,6 +10,16 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/user_db
 
+  address-service:
+    image: localhost:5000/address-service:latest
+    ports:
+      - "9999:9999"
+    networks:
+      - poc-network
+    restart: on-failure
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/address_db
+
 networks:
   poc-network:
     external: true
