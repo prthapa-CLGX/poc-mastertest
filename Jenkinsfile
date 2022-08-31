@@ -46,8 +46,8 @@ def anyPocJobRunning(currentJobName) {
 
 def String getUpStreamJobName() {
     if (currentBuild.upstreamBuilds) {
-        println "Upstream job: "+currentBuild.upstreamBuilds[0].getProjectName()
-        return currentBuild.upstreamBuilds[0].getProjectName()
+        println "Upstream job: "+currentBuild.upstreamBuilds[0].getFullProjectName()
+        return currentBuild.upstreamBuilds[0].getFullProjectName()
     } else {
         return ""
     }
