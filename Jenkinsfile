@@ -33,7 +33,7 @@ def anyPocJobRunning(currentJobName) {
      boolean res = false;
       Hudson.instance.getAllItems(org.jenkinsci.plugins.workflow.job.WorkflowJob)*.fullName.each {
           if(it.matches("(.*)poc(.*)")) {
-            if(!it.matches(currentJobName) || !it.matches(getUpStreamJobName())) {
+            if(!it.matches(currentJobName) && !it.matches(getUpStreamJobName())) {
                 if(Jenkins.instance.getItemByFullName(it).isBuilding()) {
                   res = true;
                   println "POC Job is running: "+it
